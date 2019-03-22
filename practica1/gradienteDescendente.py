@@ -59,6 +59,10 @@ def gradiante(der_parcial_u,der_parcial_v, u, v, tasaAprendizaje, coordenada):
 def ejercicio2(inicio: list, tasaAprendizaje: np.float64(),lam_formula, formula, u, v,num_iteraciones, minimo):
     der_parcial_u = formula.diff(u)
     der_parcial_v = formula.diff(v)
+    """print("dervidasas")
+    print(der_parcial_u)
+    print(der_parcial_v)
+    print("----------")"""
     datos = np.empty((num_iteraciones,3,))
     datos[:] = np.nan
     datos[0][0] = inicio[0]
