@@ -33,7 +33,7 @@
 			
 			\vspace{0.5cm}
 			\LARGE
-			Aprendizaje Automatico
+			Aprendizaje Automático
 			
 			\vspace{1.5cm}
 			
@@ -219,30 +219,92 @@
 	 	\includegraphics[scale=0.5]{pseudoinversa.png}
 	 \end{center}
  
- 	Para el método del gradiente descendiente estocástico se consigue por medio de mini-bacth y de utilizar el algoritmo del gradiente descendente. Se vasa en separar los datos en pequeñas secuencias de desordenados. Para esto se desordenan los datos de entrenamiento y cogemos muestras de un tamaño especificado como parámetro. Estos datos se procesan de forma parecida a el gradiente descendiente obteniendo. También es necesario pesarle como parámetro el valor de la tasa de aprendizaje y un numero de iteraciones. Cuando se trabajan con todos los datos que teníamos desordenados se vuelven a desordenar los datos para seguir cogiendo mini-batch. El algoritmo para después de un numero de iteraciones.
- 	El problema de este algoritmo es que no siempre da los mismos resultados y en unas iteraciones me ha dado valores mas próximos a los de la pseudoinversa y en otros unos bastantes mas alejados. Para intentar evitar este problema he ido almacenando el conjunto de pesos que mejor error me ha dado con los datos de prueba.
-	En este caso en el ejemplo nos ha dado como pesos unos mas próximos a la pseudoinversa. Los pesos son ()-1.24197953 -0.179284   -0.47334248)
+ 	Para el método del gradiente descendiente estocástico se consigue por medio de mini-bacth y de utilizar el algoritmo del gradiente descendente. Se vasa en separar los datos en pequeñas secuencias de estos desordenados. Para esto se desordenan los datos de entrenamiento y cogemos muestras de un tamaño especificado como parámetro. Estos datos se procesan de forma parecida a el gradiente descendiente obteniendo el vector de pesos. También es necesario pasarle como parámetro el valor de la tasa de aprendizaje y un numero de iteraciones. Cuando se trabajan con todos los datos que teníamos desordenados se vuelven a desordenar los datos para seguir cogiendo mini-batch. El algoritmo para después de un numero de iteraciones.
+ 	La formula utilizada para calcular el gradiente es:
+ 	\begin{equation}
+ 	\frac{2}{M}\sum_{i=1}^{M}x_{i}(h(x_{i}) - y_{n})
+ 	\end{equation}
+ 	El problema de este algoritmo es que no siempre da los mismos resultados y en unas iteraciones me ha dado valores mas próximos a los de la pseudoinversa y en otros unos bastantes mas alejados dependiendo de los parámetros pasados como tamaño del minibatch, iteraciones y tasa de aprendizaje.
+	En este caso en el ejemplo nos ha dado como pesos unos mas próximos a la pseudoinversa. Los pesos son (-1.24383288 -0.18904426 -0.45751487). Para este ejemplo he usado una tasa de aprendizaje de 0.01, un tamaño de mini-batch de 128 y 100 iteraciones.
 	
 	\begin{center}
 		\includegraphics[scale=0.5]{gde.png}
 	\end{center}
 	
-	Los errores medidos son los siguientes. He cogido dos muestras del gradiente descendente estocástico, una con buenos resultados y otra con peores resultados
-	
+	Los errores medidos son los siguientes. He cogido dos muestras del gradiente descendente estocástico, una con buenos resultados.
 	\begin{center}
 		\begin{tabular}{lll}
 			Algoritmo & Ein & Eout \\
 			Pseudoinversa   & 0.07918658628900431  & 0.13095383720052586   \\
-			GDE (Buenos Resultados)      & 0.08362802132720665  &  0.14205101406628193 \\
-			GDE (Malos Resultados)      & 0.12754745375905444  &  0.20844389603082997
+			GDE     & 0.08160387220196508  &  0.13500678957671639 
 		\end{tabular}	
 	\end{center}
 
-	Con esto llegamos a la conclusión de que siempre que sea posible utilizar la pseudoInversa y se cumplan en los datos las restricciones para utilizar esta sera la que necesitaremos elegir. Aunque comprobar si se cumplen las restricciones de este problema puede ser muy costoso.
-	En cambio el gradiente descendente estocástico nos asegura que puede ser utilizado en cualquier conjunto de datos aunque no de resultados tan buenos como la pseudoinversa.
+	Con esto llegamos a la conclusión de que siempre que sea posible utilizar la pseudoInversa y se cumplan en los datos las restricciones para utilizar esta sera la que necesitaremos elegir. Aunque comprobar si se cumplen las restricciones de este problema puede ser muy costoso.\\
+	En cambio el gradiente descendente estocástico nos asegura que puede ser utilizado en cualquier conjunto de datos aunque no de resultados tan buenos como la pseudoinversa. También tenemos que tener en cuenta que la regresión puede adaptarse mejor unas veces que otras.
+	Por ejemplo en pruebas realizadas si se cambia la tasa de aprendizaje a 0.1 en vez de 0.01 nos daba resultados muy variantes entre 0.14 de error y 0.19. Aunque la grafica tenia una pendiente mas parecida a la pseudoinversa.
+	
+	\begin{center}
+		\includegraphics[scale=0.5]{gdeTasaGrande.png}
+	\end{center}
+
 	
 \newpage
-  
-  
+
+\newpage
+	
+	\textbf{En esta apartado exploramos como se transforman los errores Ein y Eout cuando aumentamos la complejidad del modelo lineal usado. Ahora hacemos uso de la función simula\_unif(N,2,size) que nos devuelve N coordenadas 2D de puntos uniformemente maestreados dentro del cuadrado definido por [-size,size]x[-size,size]}
+	
+	\textbf{a.-Gener auna muestra de entrenamiento de N = 1000 puntos en el cuadrado X = [-1,1]x[-1,1]. Pintar el mapa de puntos 2D}
+	\newline
+	
+	Utilizamos la opción de python np.random.uniform(low=rango[0], high=rango[1], size=(num\_coordenadas, dimensión))
+	donde indicamos el rango en low y high indicamos el rango de valores y en size le decimos el numero de puntos y la dimisionario del punto.
+	
+	\begin{center}
+		\includegraphics[scale=0.5]{matriz_aleatoria.png}
+	\end{center}
+
+	
+\newpage
+ 
+ \newpage
+	 \textbf{b.-Consideramos la función f(x,y) = $sign((x-0.2)^2 + y^2 - 0.6)$ que usaremos para signar una etiqueta a cada punto de la muestra anterior.Introducimos ruido sobre las etiquetas cambiando aleatoriamente el signo de un 10\% de las mismas. Pintar el mapa de etiquetas obtenidos}
+	 
+	 \begin{center}
+	 	\includegraphics[scale=0.5]{ejercicio2b.png}
+	 \end{center}
+ 	Como se ve se han cambiado algunos valeres de 1 a -1 y al contrario mezclándose con los valores validos
+ 	\newline
+ 	
+ 	\textbf{c.- Usando como vector de características (1,x,y) ajustar un modelo de regresión lineal al conjunto de datos generado y estimar los pesos de w. Estimar el error de ajuste Ein usando gradiente descendente estocástico.}
+ 	
+ 	Le añadimos la columna de 1 a la matriz con los datos. Ejecutamos los datos con el algoritmo del gradiente descendente estocástico y nos da los peso (0.05277595,-0.45048815,-0.01940656). El error Ein es de 0.9276810531797526 y nos da el siguiente gráfico.
+ 	\begin{center}
+ 		\includegraphics[scale=0.5]{ejercicio2c.png}
+ 	\end{center}
+ 	Al estar trabajando con datos aleatorios me suele dar un rango de error entre 0.90 y 0.95 y la linea de la grafica también puede variar un poco.
+ 	He usado una tasa de aprendizaje de 0.01, 100 iteraciones y tamaño de mini-batch de 128.
+ 	\newline
+ 	
+ 	\textbf{d.- Ejecutar todo el experimento definido por (a)-(c) 1000 veces (generamos 1000 muestras diferentes ) y calcular el valor medio de los errores  Ein de las 100 muestras. También generar 1000 puntos nuevos por cada iteración y calcular con ellos el valor Eout en dicha iteración. Calcular el valor medio de Eout en todas las iteraciones.}
+ 	\newline
+ 	
+ 	
+ 	El error medio Ein es 0.9282197209746407 y el error medio Eout es:  0.9326454085320998. Como le he metido ruido también a el test me da mejor resultado en el Ein al adaptarse al ruido metido en este.
+ 	En este caso he usado la misma tasa de aprendizaje y el mismo tamaño de mini-batch que el anterior pero he usado 50 iteraciones porque era mas costoso de calcular. Aun así me tarda sobre 2 o 3 minutos en ejecutar. 
+ 	\newline
+ 	
+ 	
+ 		
+ 	
+ \newpage
+ 
+ \newpage
+	 \textbf{e.- Valore que tan bueno considere que es el ajuste con este modelo lineal a la vista de los valores medios obtenidos de Ein y Eout.}
+	 \newline
+	 
+	 El ajuste con este modelo es muy malo puesto que es complicado dividir los datos con esta distribución con un único hiperplano. 
+ \newpage
   
 \end{document}
