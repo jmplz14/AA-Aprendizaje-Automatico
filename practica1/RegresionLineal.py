@@ -215,7 +215,7 @@ def dibujarGraficoEjer2(X, Y, clases, numero, labelx, labely, titulo):
     plt.show()
     
 #añadimos las etiquetas a los datos con la funcion dada por el ejercicio
-def formula2b(matriz): 
+def formula2b(matriz, ruido): 
     #definimos la formula
     formula = lambda th: np.sign((th[0] - 0.2)**2 + th[1]**2 -0.6)
     
@@ -232,17 +232,18 @@ def formula2b(matriz):
         resultado[i][2] = matriz[i][1]
         #la nueva etiqueta
         resultado[i][3] = formula([matriz[i][0], matriz[i][1]])
-
-    #insertamos el ruido para el 10% de las muestras
-    num_cambios = int(tamano * 0.1)
-    posiciones_cambiar = random.sample(range(tamano), num_cambios)
-    for i in posiciones_cambiar:
- 
-        if(resultado[i][3] == 1):
-            resultado[i][3] = -1
-        else:
-            resultado[i][3] = 1
-   # for i in (0,num_cambios):
+        
+    if(ruido):
+        #insertamos el ruido para el 10% de las muestras
+        num_cambios = int(tamano * 0.1)
+        posiciones_cambiar = random.sample(range(tamano), num_cambios)
+        for i in posiciones_cambiar:
+     
+            if(resultado[i][3] == 1):
+                resultado[i][3] = -1
+            else:
+                resultado[i][3] = 1
+       # for i in (0,num_cambios):
         
     
     return resultado
@@ -280,8 +281,8 @@ def main():
     
     
     
-    #añadimos la etiquetas 1 y -1 
-    matriz_2b = formula2b(matriz_uniforme)
+    #añadimos la etiquetas 1 y -1 y metemos el ruido
+    matriz_2b = formula2b(matriz_uniforme, True)
     
     
     #calculamos los pesos para el gradiente descendente estocastico de los datos anteriores
@@ -312,8 +313,8 @@ def main():
         test_2d = simula_unif(1000, 2, (-1,1))
         
         #Le metemos el ruido y los etquetamos
-        training_modificado = formula2b(training_2d)
-        test_modificado = formula2b(test_2d)
+        training_modificado = formula2b(training_2d, True)
+        test_modificado = formula2b(test_2d, False)
         
         #sacamos lso pesos con el gradiente descendiente estocastico 
         pesos = gradienteDescendenteEstocastico(training_modificado[:, 0:3], training_modificado[: , 3].T, 50,128,0.01)
