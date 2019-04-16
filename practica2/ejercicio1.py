@@ -6,7 +6,7 @@ Nombre Estudiante:
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import random
+
 
 
 # Fijamos la semilla
@@ -39,6 +39,42 @@ def simula_recta(intervalo):
     
     return a, b
 
+"""
+datros: matriz con los datos 
+label: vector de etiquetas
+max_iter: numero maximo de iteraciones
+vini: valor inicial del vector de pesos
+devuelve los coeficientes del hiperplano
+"""
+def ajusta_PLA(datos, label, max_iter, vini):
+    datos_perceptron = np.ones((np.size(datos,0),np.size(datos,1) + 1))
+    datos_perceptron[:,1:] = datos
+    pesos = np.full(np.size(datos,1)+1,vini)
+    iteracion = 0
+    continuamos = True
+    num_filas = np.size(datos_perceptron,0)
+    print(label)
+    while iteracion < max_iter and continuamos:
+        for i in range(num_filas):
+            respuesta = np.sign(np.dot(pesos.T,datos_perceptron[i]))
+            if label[i] != respuesta:
+                pesos = pesos + np.dot(label[i],datos_perceptron[i])
+        print(pesos)
+
+        iteracion += 1
+    a = (-(pesos[0]/pesos[2])/(pesos[0]/pesos[1]))
+    b = (-pesos[0]/pesos[2])
+    return a,b
+                
+           
+             
+        
+
+        
+    print(datos_perceptron)
+    print(pesos)
+
+    
 
  
 
@@ -92,7 +128,7 @@ clases_positivos =np.empty(np.size(positivos,0))
 clases_negativos =np.empty(np.size(negativos,0))
 i_pos = 0
 i_neg = 0
-print(positivos)
+
 
 for i in range(0,clases.size):
     if clases[i] == 1:
@@ -127,9 +163,7 @@ for i in posiciones_neg:
 
 clases_2b = np.concatenate([clases_positivos,clases_negativos])
 datos_2b = np.concatenate([positivos,negativos])
-print(clases_2b)
-print(clases_positivos)
-print(clases_negativos)
+
 positivos = np.transpose(positivos)
 negativos = np.transpose(negativos)
 
@@ -146,6 +180,72 @@ plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
 #ejercicio 3
+#primera formula
+
+x = np.linspace(-50,50,100)
+y = np.linspace(-50,50,100)
+x, y = np.meshgrid(x, y)
+z = (x-10)**2 + (y-20)**2 - 400
+#z = (x-10)**2 + (y-20)**2 - 400
+
+plt.figure(figsize=(10,7))
+plt.contour(x,y,z,[0])
+plt.scatter(positivos[0],positivos[1], c=clases_positivos)
+plt.scatter(negativos[0],negativos[1], c=clases_negativos)
+plt.title('Ejercicio 3 formula (x-10)**2 + (y-20)**2 - 400 ')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
+
+z = 0.5*(x+10)**2 + (y-20)**2 - 400
+plt.figure(figsize=(10,7))
+plt.contour(x,y,z,[0])
+plt.scatter(positivos[0],positivos[1], c=clases_positivos)
+plt.scatter(negativos[0],negativos[1], c=clases_negativos)
+plt.title('Ejercicio 3 formula 0.5*(x+10)**2 + (y-20)**2 - 400 ')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
+
+z = 0.5*(x-10)**2 - (y+20)**2 - 400
+plt.figure(figsize=(10,7))
+plt.contour(x,y,z,[0])
+plt.scatter(positivos[0],positivos[1], c=clases_positivos)
+plt.scatter(negativos[0],negativos[1], c=clases_negativos)
+plt.title('Ejercicio 3 formula 0.5*(x+10)**2 + (y-20)**2 - 400 ')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
+
+z = y - 20*x**2 - 5*x + 3
+plt.figure(figsize=(10,7))
+plt.contour(x,y,z,[0])
+plt.scatter(positivos[0],positivos[1], c=clases_positivos)
+plt.scatter(negativos[0],negativos[1], c=clases_negativos)
+plt.title('Ejercicio 3 formula 0.5*(x+10)**2 + (y-20)**2 - 400 ')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
+
+#2 modelos lineales.
+a_1a,b_1a = ajusta_PLA(datos_ejer2,clases,87,0)
+
+x = np.linspace(-50,50,100)
+y = a_1a*x + b_1a
+
+plt.figure(figsize=(10,7))
+plt.plot(x,y,color='blue')
+plt.scatter(datos_ejer2.T[0],datos_ejer2.T[1], c=clases)
+plt.title('Ejercicio 1a Regresion lineal')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
 
 
 
