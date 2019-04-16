@@ -273,6 +273,7 @@ def main():
     
 
     #Dibujamos los grficos para la pseudoinversa y el gde
+    print(type(training))
     dibujarGrafico2D(training[: , 1], training[: , 2], clases_training, gde, 1, "Intensidad promedio", "Simetria", "Gradiente Descendente Estocastico")
     dibujarGrafico2D(training[: , 1], training[: , 2], clases_training, Inversa, 2, "Intensidad promedio", "Simetria", "Pseudoinversa")
     
