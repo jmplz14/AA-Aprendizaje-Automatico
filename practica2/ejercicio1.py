@@ -49,22 +49,24 @@ devuelve los coeficientes del hiperplano
 def ajusta_PLA(datos, label, max_iter, vini):
     datos_perceptron = np.ones((np.size(datos,0),np.size(datos,1) + 1))
     datos_perceptron[:,1:] = datos
-    pesos = np.full(np.size(datos,1)+1,vini)
+    pesos = vini
+    pesos_ant = vini
     iteracion = 0
-    continuamos = True
     num_filas = np.size(datos_perceptron,0)
-    print(label)
-    while iteracion < max_iter and continuamos:
+    while iteracion < max_iter:
         for i in range(num_filas):
             respuesta = np.sign(np.dot(pesos.T,datos_perceptron[i]))
             if label[i] != respuesta:
                 pesos = pesos + np.dot(label[i],datos_perceptron[i])
-        print(pesos)
-
+        if np.array_equal(pesos,pesos_ant):
+            iteracion -= 1
+            break
+        pesos_ant = pesos
+        
         iteracion += 1
     a = (-(pesos[0]/pesos[2])/(pesos[0]/pesos[1]))
     b = (-pesos[0]/pesos[2])
-    return a,b
+    return a,b,iteracion
                 
            
              
@@ -232,8 +234,12 @@ plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
 #2 modelos lineales.
-a_1a,b_1a = ajusta_PLA(datos_ejer2,clases,87,0)
+print("\nEjercicios Regresion Lineal\n")
 
+pesos = np.zeros(np.size(datos_ejer2,1)+1)
+a_1a,b_1a,num_iter = ajusta_PLA(datos_ejer2,clases,100,pesos)
+print("Ejercicio 1 apartado a\n")
+print("Con el vector iniciado a 0 se necesitan ", num_iter , " iteraciones\n" )
 x = np.linspace(-50,50,100)
 y = a_1a*x + b_1a
 
@@ -247,9 +253,30 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+a_1b = 0
+b_1b = 0
+num_iter_total = 0
+for i in range(10):
+    pesos = np.random.rand(np.size(datos_ejer2,1)+1)
+    a_1b,b_1b,num_iter = ajusta_PLA(datos_ejer2,clases,150,pesos)
+    num_iter_total += num_iter
 
+print("Con el vector iniciado aleatoriamente se necesitan ", num_iter_total/10 , " iteraciones\n" ) 
 
+pesos = np.zeros(np.size(datos_ejer2,1)+1)
+a_2b,b_2b,num_iter = ajusta_PLA(datos_2b,clases_2b,250,pesos)
 
+x = np.linspace(-50,50,100)
+y = a_2b*x + b_2b
+plt.figure(figsize=(10,7))
+plt.plot(x,y,color='blue')
+plt.scatter(datos_2b.T[0],datos_2b.T[1], c=clases_2b)
+plt.title('Ejercicio 1b Regresion lineal')
+cinco_patch = mpatches.Patch(color='yellow', label='1')
+uno_patch = mpatches.Patch(color='purple', label='-1')
+
+plt.legend(handles=[cinco_patch,uno_patch])
+plt.show()
 
 ###############################################################################
 ###############################################################################
