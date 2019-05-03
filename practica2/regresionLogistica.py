@@ -157,7 +157,7 @@ def gradienteDescendenteEstocastico(x, y, num_iteraciones,tam_minibatch,tasa_apr
 
     return pesos
 
-       
+#funcion de error de la regresion lineal
 def error(x,y,pesos):
     total_errores = 0
     tamano = y.size
@@ -172,19 +172,25 @@ def error(x,y,pesos):
     return total_errores/tamano
     
 
+#cargo la muestra de entrenamiento
 a,b = simula_recta((0,2))
 X=simula_unif(100,2,(0,2))
 Y = np.sign(X.T[1] - a * X.T[0] -b)
 
+#inicio los valores con los que quiero que ejecute
 pesos = np.zeros(3)
 num_iteraciones = 5000
 tam_minibatch = 16
 tasa_aprendizaje = 0.01
 
+#le meto la columno de uno a los datos
 X_conuno = np.ones((np.size(X,0),np.size(X,1) + 1))
 X_conuno[:,1:] = X
 
+#llamo a la funcion del gradiente con regresion lineal
 pesos = gradienteDescendenteEstocastico(X_conuno, Y, num_iteraciones,tam_minibatch,tasa_aprendizaje)
+
+#obtengo los coeficientes
 a_g = (-(pesos[0]/pesos[2])/(pesos[0]/pesos[1]))
 b_g = (-pesos[0]/pesos[2])
 
@@ -193,7 +199,7 @@ y_recta = a*x_recta + b
 y_gradiente = a_g*x_recta + b_g
 
 
-
+#dibujo la grafica del entrenamiento
 plt.figure(figsize=(10,7))
 plt.plot(x_recta,y_recta,color='blue')
 plt.plot(x_recta,y_gradiente,color='red')
@@ -207,9 +213,11 @@ tres_patch = mpatches.Patch(color='red', label='regresion logistica')
 plt.legend(handles=[cinco_patch,uno_patch,dos_patch,tres_patch])
 plt.show()
 
+#cargo el conjunto de prueba.
 x_test=simula_unif(3000,2,(0,2))
 y_test = np.sign(x_test.T[1] - a * x_test.T[0] -b)
 
+#dibujo la grafica
 plt.figure(figsize=(10,7))
 plt.plot(x_recta,y_recta,color='blue')
 plt.plot(x_recta,y_gradiente,color='red')
@@ -224,14 +232,17 @@ plt.legend(handles=[cinco_patch,uno_patch,dos_patch,tres_patch])
 
 plt.show()
 
+
 x_test_conuno = np.ones((np.size(x_test,0),np.size(x_test,1) + 1))
 x_test_conuno[:,1:] = x_test
 
+#cambio los -1 por 0
 y_test_copy = np.copy(y_test)
 for i in range(y_test_copy.size):
     if(y_test_copy[i] == -1):
         y_test_copy[i] = 0
 
+#calculo y muestro el error
 print("Ejercicio 2b\n")     
 print("El porcentaje de error para el test es de: ", error(x_test_conuno,y_test_copy,pesos))
 

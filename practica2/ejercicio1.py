@@ -47,23 +47,30 @@ vini: valor inicial del vector de pesos
 devuelve los coeficientes del hiperplano
 """
 def ajusta_PLA(datos, label, max_iter, vini):
+    #le pongo la columna de 1 a los datos
     datos_perceptron = np.ones((np.size(datos,0),np.size(datos,1) + 1))
     datos_perceptron[:,1:] = datos
+    #inicio pesos y lo guardo como anterior 
     pesos = vini
     pesos_ant = vini
     iteracion = 0
     num_filas = np.size(datos_perceptron,0)
+    
+    #entramos mientras nos queden iteraciones.
     while iteracion < max_iter:
+        #caluclamos los nuevos pesos
         for i in range(num_filas):
             respuesta = np.sign(np.dot(pesos.T,datos_perceptron[i]))
             if label[i] != respuesta:
                 pesos = pesos + np.dot(label[i],datos_perceptron[i])
+        #si no son iguales continuamso, si fueran iguales terminaos y salimos
         if np.array_equal(pesos,pesos_ant):
             iteracion -= 1
             break
         pesos_ant = pesos
         
         iteracion += 1
+    #obtenemos los coeficientes
     a = (-(pesos[0]/pesos[2])/(pesos[0]/pesos[1]))
     b = (-pesos[0]/pesos[2])
     return a,b,iteracion
@@ -80,14 +87,18 @@ def ajusta_PLA(datos, label, max_iter, vini):
 
  
 
-print('Ejercicio 1-a')
+#print('Ejercicio 1-a')
+#cargamos los datos
 a1 = simula_unif(50, 2, (-50,50))
 a2 = simula_gaus(50, 2, (5,7))
+
+#dibuajos la grafica del 1-a
 plt.figure(figsize=(10,7))
 plt.plot(a1,'o',markersize=4,color='green')
 plt.title('Ejercicio 1a')
 plt.show()
 
+#dibuajos la grafica del 1-b
 plt.figure(figsize=(10,7))
 plt.plot(a2,'o',markersize=4,color='blue')
 plt.title('Ejercicio 1b')
@@ -96,7 +107,8 @@ plt.show()
 
 
 
-print('Ejercicio 2')
+#print('Ejercicio 2')
+#cargamos los datos del ejercicio dos sin ruido
 datos_ejer2 = simula_unif(50, 2, (-50,50))
 clases = np.empty(50)
 a,b = simula_recta((-50,50)) 
@@ -105,6 +117,7 @@ datos_transpuestos = np.transpose(datos_ejer2)
 coordenada_x = datos_transpuestos[0]
 coordenada_y = datos_transpuestos[1]
 
+#asignamos las clases
 clases = np.sign(coordenada_y - a * coordenada_x -b)
 #for x in datos_ejer2:
 #    clases[i] = np.sign(x[0] - a*x[1] - b)
@@ -114,6 +127,7 @@ clases = np.sign(coordenada_y - a * coordenada_x -b)
 x = np.linspace(-50,50,100)
 y = a*x + b
 
+#dibujamso las clases sin ruido
 plt.figure(figsize=(10,7))
 plt.plot(x,y,color='blue')
 plt.scatter(datos_transpuestos[0],datos_transpuestos[1], c=clases)
@@ -124,6 +138,7 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+#creo la estructura para separar los positivos y los negativos
 positivos = np.zeros((clases[clases == 1].size,2))
 negativos = np.zeros((clases[clases == -1].size,2))
 clases_positivos =np.empty(np.size(positivos,0))
@@ -131,7 +146,7 @@ clases_negativos =np.empty(np.size(negativos,0))
 i_pos = 0
 i_neg = 0
 
-
+#separo los positivos y los negativos
 for i in range(0,clases.size):
     if clases[i] == 1:
         positivos[i_pos][0] = datos_ejer2[i][0]
@@ -143,12 +158,14 @@ for i in range(0,clases.size):
         negativos[i_neg][1] = datos_ejer2[i][1]
         clases_negativos[i_pos] = -1
         i_neg += 1
-        
+   
+#caculamos el numero de putnos que tenemos que cambiar el signo     
 porcentaje_pos = int(clases_positivos.size * 0.1)
 porcentaje_neg = int(clases_negativos.size * 0.1)
 #posiciones_pos = random.sample(range(clases_positivos.size), porcentaje_pos)
 #posiciones_neg = random.sample(range(clases_negativos.size), porcentaje_neg)
 
+#nos quedamos con las posiciones que vamos a cambiar de signo
 posiciones_pos = np.arange(clases_positivos.size)
 np.random.shuffle(posiciones_pos)
 posiciones_pos = posiciones_pos[:porcentaje_pos]
@@ -157,12 +174,14 @@ posiciones_neg = np.arange(clases_negativos.size)
 np.random.shuffle(posiciones_neg)
 posiciones_neg = posiciones_neg[:porcentaje_neg]
 
+#cambiamos el signo
 for i in posiciones_pos:
     clases_positivos[i] = -1
 
 for i in posiciones_neg:
     clases_negativos[i] = 1
 
+#juntamos los positivos y negativos para mostrarlos en la grafica
 clases_2b = np.concatenate([clases_positivos,clases_negativos])
 datos_2b = np.concatenate([positivos,negativos])
 
@@ -170,7 +189,7 @@ positivos = np.transpose(positivos)
 negativos = np.transpose(negativos)
 
 
-
+#mostramos el grafico con ruido
 plt.figure(figsize=(10,7))
 plt.plot(x,y,color='blue')
 plt.scatter(positivos[0],positivos[1], c=clases_positivos)
@@ -200,6 +219,7 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+#segunda formula
 z = 0.5*(x+10)**2 + (y-20)**2 - 400
 plt.figure(figsize=(10,7))
 plt.contour(x,y,z,[0])
@@ -211,6 +231,7 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+#tercera formula
 z = 0.5*(x-10)**2 - (y+20)**2 - 400
 plt.figure(figsize=(10,7))
 plt.contour(x,y,z,[0])
@@ -222,6 +243,7 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+#cuarta formula
 z = y - 20*x**2 - 5*x + 3
 plt.figure(figsize=(10,7))
 plt.contour(x,y,z,[0])
@@ -234,8 +256,13 @@ plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
 #2 modelos lineales.
+"""
+Realizao el ejercicio de perceptron en el mismo fichero porque utiliza datos
+del apartdo anterior
+"""
 print("\nEjercicios Regresion Lineal\n")
 
+##inicio el vector a 0 y utilizo el perceptron para ajustarlo.
 pesos = np.zeros(np.size(datos_ejer2,1)+1)
 a_1a,b_1a,num_iter = ajusta_PLA(datos_ejer2,clases,100,pesos)
 print("Ejercicio 1 apartado a\n")
@@ -243,6 +270,7 @@ print("Con el vector iniciado a 0 se necesitan ", num_iter , " iteraciones\n" )
 x = np.linspace(-50,50,100)
 y = a_1a*x + b_1a
 
+#dibuja la grafica del perceptron con pesos a 0.
 plt.figure(figsize=(10,7))
 plt.plot(x,y,color='blue')
 plt.scatter(datos_ejer2.T[0],datos_ejer2.T[1], c=clases)
@@ -253,6 +281,7 @@ uno_patch = mpatches.Patch(color='purple', label='-1')
 plt.legend(handles=[cinco_patch,uno_patch])
 plt.show()
 
+#realizo las dies toma de datos para el perceptron con pesos aleatorios
 a_1b = 0
 b_1b = 0
 num_iter_total = 0
@@ -261,6 +290,7 @@ for i in range(10):
     a_1b,b_1b,num_iter = ajusta_PLA(datos_ejer2,clases,150,pesos)
     num_iter_total += num_iter
 
+#calculo la media y el numero de iteraciones.
 print("Con el vector iniciado aleatoriamente se necesitan ", num_iter_total/10 , " iteraciones\n" ) 
 
 pesos = np.zeros(np.size(datos_ejer2,1)+1)
