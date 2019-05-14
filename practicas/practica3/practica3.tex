@@ -102,5 +102,41 @@
 			\end{tabular}
 		\end{center}
 	\end{table}
+	\newpage
+	
+	\subsection{Preprocesado de datos}
+	En este caso el he realizado una normalización muy sencilla, al saber que los datos están en el rango [0-16], solo tenemos que dividir los datos entre 16.
+	
+	También se ha realizado una eliminación de variables que no aportan al problema. Estas variables son aquellas en cuya columna los datos tengan una varianza menor a 0.001 en este caso. Para esto he utilizado la función de VarianceThreshold de sklearn.feature\_selection.
+	Esto nos ahorra 12 variables que no tienen una varianza menor a la dada anteriormente.
+	
+	Para esto utilizo la siguiente función:
+	\begin{lstlisting}
+def eliminarDatosVarianza(train_x,train_y,limite):
+	row_train = np.size(train_X,0)
+	
+	datos = np.concatenate((train_X, test_X), axis=0)
+	
+	selector = VarianceThreshold(limite)
+	datos_procesados = selector.fit_transform(datos)
+	
+	train = datos_procesados[:row_train, :]
+	test = datos_procesados[row_train:, :]
+	return train,test
+	\end{lstlisting}
+	
+	En nuestro caso se eliminan la siguientes partes de la matriz.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth, height=0.4\textheight]{screenshot003}
+	\caption{}
+	\label{fig:screenshot003}
+\end{figure}
+
+
+	Estas partes coinciden con las partes de la matriz menos usadas a la hora de escribir un numero.
+
+	
+	
   
 \end{document}
