@@ -1,0 +1,2 @@
+\contentsline {section}{\numberline {1}Digits Data Set}{1}
+\contentsline {subsection}{\numberline {1.1}Comprender el problema a resolver.}{1}
