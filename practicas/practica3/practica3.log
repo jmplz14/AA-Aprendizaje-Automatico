@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.14)  14 MAY 2019 23:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.14)  17 MAY 2019 13:55
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -398,6 +398,41 @@ File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
 \Gin@req@height=\dimen107
 \Gin@req@width=\dimen108
 )
+(/usr/share/texlive/texmf-dist/tex/latex/subfig/subfig.sty
+Package: subfig 2005/06/28 ver: 1.3 subfig package
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2016/02/21 v3.3-144 Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2016/05/22 v1.7-166 caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 67.
+\captionmargin=\dimen109
+\captionmargin@=\dimen110
+\captionwidth=\dimen111
+\caption@tempdima=\dimen112
+\caption@indent=\dimen113
+\caption@parindent=\dimen114
+\caption@hangindent=\dimen115
+)
+\c@ContinuedFloat=\count96
+Package caption Info: float package is loaded.
+Package caption Info: listings package is loaded.
+)
+\c@KVtest=\count97
+\sf@farskip=\skip43
+\sf@captopadj=\dimen116
+\sf@capskip=\skip44
+\sf@nearskip=\skip45
+\c@subfigure=\count98
+\c@subfigure@save=\count99
+\c@lofdepth=\count100
+\c@subtable=\count101
+\c@subtable@save=\count102
+\c@lotdepth=\count103
+\sf@top=\skip46
+\sf@bottom=\skip47
+)
 (/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
 Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
 
@@ -421,32 +456,32 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (./practica3.aux)
 \openout1 = `practica3.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 26.
-LaTeX Font Info:    ... okay on input line 26.
-\c@lstlisting=\count96
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 27.
+LaTeX Font Info:    ... okay on input line 27.
+\c@lstlisting=\count104
 
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count97
-\scratchdimen=\dimen109
+\scratchcounter=\count105
+\scratchdimen=\dimen117
 \scratchbox=\box30
-\nofMPsegments=\count98
-\nofMParguments=\count99
+\nofMPsegments=\count106
+\nofMParguments=\count107
 \everyMPshowfont=\toks20
-\MPscratchCnt=\count100
-\MPscratchDim=\dimen110
-\MPnumerator=\count101
-\makeMPintoPDFobject=\count102
+\MPscratchCnt=\count108
+\MPscratchDim=\dimen118
+\MPnumerator=\count109
+\makeMPintoPDFobject=\count110
 \everyMPtoPDFconversion=\toks21
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
@@ -504,6 +539,10 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: subfig package v1.3 is loaded.
+Package caption Info: End \AtBeginDocument code.
+
 [1
 
 {/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] (./practica3.toc
@@ -517,37 +556,57 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 [2]
-Overfull \hbox (18.91728pt too wide) in paragraph at lines 52--54
+Overfull \hbox (18.91728pt too wide) in paragraph at lines 53--55
 \OT1/cmr/m/n/10 Los datos al-ma-ce-na-dos en el dataset pertenecen a un con-jun
 to de d^^S^^Pgitos manuscritos.
  []
 
 [1]
-<screenshot003.png, id=17, 197.23688pt x 197.98969pt>
-File: screenshot003.png Graphic file (type png)
-<use screenshot003.png>
-Package pdftex.def Info: screenshot003.png  used on input line 131.
-(pdftex.def)             Requested size: 241.49838pt x 220.00075pt.
- [2 <./screenshot003.png (PNG copy)>] (./practica3.aux) ) 
+<screenshot002.png, id=17, 149.8097pt x 147.55125pt>
+File: screenshot002.png Graphic file (type png)
+<use screenshot002.png>
+Package pdftex.def Info: screenshot002.png  used on input line 150.
+(pdftex.def)             Requested size: 241.49895pt x 237.8767pt.
+ [2]
+<screenshot001.png, id=23, 149.8097pt x 147.55125pt>
+File: screenshot001.png Graphic file (type png)
+<use screenshot001.png>
+Package pdftex.def Info: screenshot001.png  used on input line 163.
+(pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
+<screenshot004.png, id=24, 149.8097pt x 147.55125pt>
+File: screenshot004.png Graphic file (type png)
+<use screenshot004.png>
+Package pdftex.def Info: screenshot004.png  used on input line 166.
+(pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
+<screenshot005.png, id=25, 149.8097pt x 147.55125pt>
+File: screenshot005.png Graphic file (type png)
+<use screenshot005.png>
+Package pdftex.def Info: screenshot005.png  used on input line 169.
+(pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
+ [3 <./screenshot002.png (PNG copy)> <./screenshot001.png (PNG copy)> <./screen
+shot004.png (PNG copy)> <./screenshot005.png (PNG copy)>] [4]
+(./practica3.aux) ) 
 Here is how much of TeX's memory you used:
- 3988 strings out of 494923
- 51634 string characters out of 6180741
- 154428 words of memory out of 5000000
- 7273 multiletter control sequences out of 15000+600000
- 6538 words of font info for 24 fonts, out of 8000000 for 9000
+ 5216 strings out of 494923
+ 73686 string characters out of 6180741
+ 198083 words of memory out of 5000000
+ 8487 multiletter control sequences out of 15000+600000
+ 6837 words of font info for 25 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
- 41i,12n,40p,553b,1118s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/te
-xmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
-ts/cm/cmtt8.pfb>
-Output written on practica3.pdf (4 pages, 77755 bytes).
+ 44i,12n,49p,553b,1118s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
+m/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx
+12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmtt8.pfb>
+Output written on practica3.pdf (6 pages, 119258 bytes).
 PDF statistics:
- 42 PDF objects out of 1000 (max. 8388607)
- 28 compressed objects within 1 object stream
+ 63 PDF objects out of 1000 (max. 8388607)
+ 41 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 21 words of extra memory for PDF output out of 10000 (max. 10000000)
 

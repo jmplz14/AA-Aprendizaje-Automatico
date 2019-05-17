@@ -4,6 +4,7 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{graphicx}
+\usepackage{subfig}
 \graphicspath{ {imagenes/} }
  \usepackage{xcolor}
  \definecolor{RoyalBlue}{cmyk}{1, 0.50, 0, 0}
@@ -105,10 +106,12 @@
 	\newpage
 	
 	\subsection{Preprocesado de datos}
-	En este caso el he realizado una normalización muy sencilla, al saber que los datos están en el rango [0-16], solo tenemos que dividir los datos entre 16.
+	En este caso el he realizado una normalización muy sencilla, al saber que los datos están en el rango [0sklearn.preprocessing.PolynomialFeatures
 	
-	También se ha realizado una eliminación de variables que no aportan al problema. Estas variables son aquellas en cuya columna los datos tengan una varianza menor a 0.001 en este caso. Para esto he utilizado la función de VarianceThreshold de sklearn.feature\_selection.
-	Esto nos ahorra 12 variables que no tienen una varianza menor a la dada anteriormente.
+	-16], solo tenemos que dividir los datos entre 16.
+	
+	También se ha realizado una eliminación de variables que no aportan al problema. Estas variables son aquellas en cuya columna los datos tengan una varianza menor a 0 en este caso(todas las variables que solo tienen un único valor en todas las muestras.). Para esto he utilizado la función de VarianceThreshold de sklearn.feature\_selection.
+	Esto nos ahorra 2 variables que tienen una varianza de 0. Estas partes de la matriz nunca han sido utilizadas para ningún numero.
 	
 	Para esto utilizo la siguiente función:
 	\begin{lstlisting}
@@ -125,18 +128,58 @@ def eliminarDatosVarianza(train_x,train_y,limite):
 	return train,test
 	\end{lstlisting}
 	
-	En nuestro caso se eliminan la siguientes partes de la matriz.
+A continuación vamos a añadir nueva información que nos ayude a clasificar, para esto uso la librería sklearn.preprocessing.PolynomialFeatures con el parámetro de grado 2. El código de la función seria el siguiente.
+\begin{lstlisting}
+def anadirInformacionPolinomial(train_X, test_X, grado = 2):
+	poly = PolynomialFeatures(grado)
+	train_X = poly.fit_transform(train_X)
+	test_X = poly.fit_transform(test_X)
+	
+	return train_X, test_X
+\end{lstlisting}
+
+Esto nos añadirá nueva información de la siguiente manera. Si partimos de una muestra con [a,b] nos daría $[1,a,b,a^2,ab,b^2]$. En este caso he optado por elegir 2 porque con 4 la memoria se desborda al añadir demasiada información y con 3 no me mejoro el problema.
+
+\subsection{Selección de clase de funciones a usar.}
+
+El problema al que nos enfrentamos es un problema de clasificación. Vamos a usar una función lineal para solucionar este problema. Al ser clasificación y tener mas de dos etiquetas este problema no puede ser solucionado con una función lineal unicamente. Para esto utilizaremos la función lineal enfrentando una clase a todas las demás(one vs rest). 
+
+Vamos a poner un pequeño ejemplo con tres clases para ver como funcionaria. Como se ve en la siguiente imagen es imposible dividir las clases con una única linea. 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth, height=0.4\textheight]{screenshot003}
-	\caption{}
-	\label{fig:screenshot003}
+	\includegraphics[width=0.7\linewidth]{screenshot002}
+	\caption{Conjunto de clases}
+	\label{fig:screenshot002}
 \end{figure}
 
+En las siguientes imágenes se ve como enfrentamos una clase a las otras dos de forma que si se puede conseguir una separación mediante una función lineal.
 
-	Estas partes coinciden con las partes de la matriz menos usadas a la hora de escribir un numero.
 
-	
-	
-  
+
+\begin{figure}[H]
+	\centering
+	\subfloat[Triangulos]{
+		\label{f:gato}
+		\includegraphics[width=0.3\textwidth]{screenshot001}}
+	\subfloat[Cuadrados]{
+		\label{f:tigre}
+		\includegraphics[width=0.3\textwidth]{screenshot004}}
+	\subfloat[Cruces]{
+		\label{f:conejo}
+		\includegraphics[width=0.3\textwidth]{screenshot005}}
+	\caption{División mediante one vs rest}
+\end{figure}
+
+Por tanto nos quedaremos con las funciones lineales para este problema.
+ 
+\subsection{Definición de training, validación y test.}
+En este caso los datos vienen divididos ya en train y test. En el train se tienen 40 personas y el test 13. Si somos capaces de conseguir un buen $E_{out}$, estaremos consiguiendo que sea capaz de reconocer los números sin tener en cuenta la forma de escribir de cada participante. Esto me parece la mejor opción y no he realizado ninguna modificación en este apartado.
+
+\subsection{Necesidad de regularización}
+Como se explico en teoría la regularización nunca viene mal para eliminar un poco de sobreajuste de nuestro modelo. En este caso he utilizado la regularización l1 (usa el valor absoluto) puesto después de varias pruebas me ha dado mejores resultados que l2(usa pesos al cuadrado). En este caso la diferencia es muy pequeña llegando a alrededor de un 1\%. Pero al ser también mas eficiente y rápida la regularización l1 he terminado optando por esta.
+
+\subsection{Definición del modelos a usar y sus parámetros}
+El modelo a usar sera regresión logística multiclase , utilizando one vs rest(ovr). Los parámetros que tendremos que tener en cuenta sera el parámetro que nos indica el tipo de regularización (l1 o l2) y el parámetro c que indica como de fuerte sera la regularización.
+
 \end{document}
+
