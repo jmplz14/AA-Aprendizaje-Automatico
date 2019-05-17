@@ -8,6 +8,7 @@ Created on Tue May 14 12:23:46 2019
 from sklearn.linear_model import LogisticRegression
 from sklearn.feature_selection import VarianceThreshold 
 from sklearn.preprocessing import PolynomialFeatures
+from sklearn.linear_model import Perceptron
 import numpy as np
 
 
@@ -53,6 +54,13 @@ def anadirInformacionPolinomial(train_X, test_X, grado = 2):
     test_X = poly.fit_transform(test_X)
     
     return train_X, test_X
+def perceptronEntrenar(X,y,X_test, y_test):
+    clf = Perceptron(tol=1e-3,random_state=0, penalty = 'l1')
+    clf.fit(X, y)  
+    clf.score(X, y)
+    acierto = clf.score(X_test, y_test)
+    return acierto;
+
 
 def obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion):
     datos = np.empty((250,2))
@@ -86,8 +94,11 @@ def main():
     train_X,test_X = anadirInformacionPolinomial(train_X,test_X,2)
     regularizacion = 'l1'
     
-    
-    obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion)
+    acierto_logistico = regresionLinealEntrenar(train_X,train_y,test_X,test_y,regularizacion,500)
+    print(acierto_logistico*100)
+    acierto_perceptron = perceptronEntrenar(train_X,train_y,test_X,test_y)
+    print(acierto_perceptron*100)
+    #obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion)
     
 if __name__== "__main__":
   main()
