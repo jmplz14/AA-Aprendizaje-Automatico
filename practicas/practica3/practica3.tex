@@ -52,6 +52,34 @@
 	\subsection{Comprender el problema a resolver.}
 	Los datos almacenados en el dataset pertenecen a un conjunto de dígitos manuscritos. 
 	Para el reconocimiento de los dígitos se utiliza una matriz de 32x32 inicialmente. Esta matriz se dividirá en matrices mas pequeñas de 4x4 sin solaparse. A cada una de estas matrices le daremos un valor numérico en el rango [0,16].
+	Vamos a poner un pequeño ejemplo. La matriz inicial 32x32 seria la siguiente.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth, height=0.72\textheight]{4}
+
+\end{figure}
+	Como se ve los 0 representa la parte sin utilizar y los 1 la parte donde se escribe. 
+	\newpage
+	Esta matriz se divide en pequeñas matices 4x4 como en la siguiente imagen.
+	\begin{figure}[H]
+		\centering
+			\includegraphics[width=0.7\linewidth, height=0.72\textheight]{4matriculado}
+
+	\end{figure}
+	\newpage
+	En cada matriz 4x4 contaremos el numero de 1 que tenemos y le daremos ese valor. Vamos a realizar esto con la quinta fila para ver un ejemplo. 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{columanasinmodificar}
+	\end{figure}
+	Esta fila de la matriz quedaría de la siguiente manera.
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width=0.7\linewidth]{columanmodificada}
+		\caption{}
+		\label{fig:columanmodificada}
+	\end{figure}
+	
 	
 	 Por tanto finalmente obtendremos por cada dígito manuscrito una matriz 8x8 que contendrán un valor numérico entre [0,16]. Esto es un total de 64 enteros por cada dígito analizado. La división de la matriz inicial en matrices mas pequeñas nos asegura que el tamaño del problema se mucho menor al reducir el numero de valores por cada muestra y que al tener en cuenta matrices de 4x4 para dar un valor evitamos muchas invarianzas a pequeñas distorsiones que se podrían dar si usáramos directamente la matriz de 32x32. 
 	
@@ -179,7 +207,84 @@ En este caso los datos vienen divididos ya en train y test. En el train se tiene
 Como se explico en teoría la regularización nunca viene mal para eliminar un poco de sobreajuste de nuestro modelo. En este caso he utilizado la regularización l1 (usa el valor absoluto) puesto después de varias pruebas me ha dado mejores resultados que l2(usa pesos al cuadrado). En este caso la diferencia es muy pequeña llegando a alrededor de un 1\%. Pero al ser también mas eficiente y rápida la regularización l1 he terminado optando por esta.
 
 \subsection{Definición del modelos a usar y sus parámetros}
-El modelo a usar sera regresión logística multiclase , utilizando one vs rest(ovr). Los parámetros que tendremos que tener en cuenta sera el parámetro que nos indica el tipo de regularización (l1 o l2) y el parámetro c que indica como de fuerte sera la regularización.
+Vamos a utilizar dos algoritmos que utilizan funciones lineales. Uno sera regresión logistica y el otro perceptron. Los dos se basan en one vs rest(ovr) para resolver problemas multiclase.
+\begin{enumerate}
+	\item{Perceptron}: En este caso es el mas sencillo de los dos puesto que solo tenemos que ajustar tres parametros sencillos de entender. Usaremos la implementación de la librería sklearn.linear\_model.Perceptron
+	\begin{enumerate}		
+		\item{Umbral de parada:} Indicara cuando tengamos un error menor al indicado pararemos el perceptron.
+		\item{Numero de iteraciones sin cambio:} Como el propio nombre indica cuando se realizen un numero de iteraciones en las que no conseguimos mejorar, el perceptron parara la ejecución.
+		\item{Numero de iteraciones máxima:} En este caso sera en numero máximo de iteraciones que el perceptron  podrá realizar si no decide parar antes por alguna de las dos variables explicadas anteriormente.
+	\end{enumerate}
+	El perceptron intentara separar una clase del resto mediante un hyperplano. 
+	
+	\item{Regresión logística:} En este caso es tenemos los mismos parámetros que el perceptron solo tenemos dos parámetros que coinciden con los dados para el perceptron.
+	\begin{enumerate}		
+		\item{Umbral de parada:} Indicara cuando tengamos un error menor al indicado pararemos el perceptron.
+		\item{Numero de iteraciones máxima:} En este caso sera en numero máximo de iteraciones podrá realizar si no decide parar antes por el umbral de parada.
+	\end{enumerate}
+	Regresión lineal intenta estimar la probabilidad de que pertenezca a una de las clases o al resto. Requiere grandes tamaños de datos y es muy eficiente y no requiere grandes recursos computacionales.
+\end{enumerate}
+
+\subsection{Selección y ajuste del modelo final}
+Los datos medidos para los dos algoritmos con los parametros por defecto dados por la librería sklearn son los siguientes.
+	\begin{table}[H]
+		\begin{center}
+			\begin{tabular}{|l|l|l|}
+				\hline
+				Algoritmo & Tiempo & Eout\\
+				\hline
+				Perceptron & 0.6093 & 4.0066\%\\ 
+				\hline
+				Regresión logística & 4.9787 & 2.5041\%\\  
+				\hline
+			\end{tabular}
+		\end{center}
+	\end{table}
+El ajuste con regresión logística es un 1.5\% mejor aunque el perceptron es mas rápido que regresión logística. En este caso voy a optar por elegir el modelo de regresión logística para tratar de bajar el Eout por debajo del 2\%. Realizo esta selección para intentar mejorar el 98.00\% tasa de acierto que consigue k-nn con k=1 en estos datos. La tasa de acierto de k-nn viene especificada en el fichero optdigits.name del dataset. Los resultados que muestra son los siguientes.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot006}
+\end{figure}
+ 
+\subsection{Métrica usada}
+La métrica usada en este caso es la tasa de acierto(Accuracy) que se basa en calcular el numero de aciertos totales tenidos entre el total de muestras. 
+
+
+$$
+Accuracy=\frac{Numero\ correcto\ de\ prediciones}{Numero\ total\ de\ predicciones}
+$$
+Me he decidido por esta métrica porque lo importante en este problema es ser capaces de acertar el numero. Para esto lo mejor es ver si la predicción realizada por regresión logística acertó con la etiqueta dada para esa entrada.
+
+\subsection{Estimación del error Eout}
+En este apartado vamos a ver cuanto he conseguido mejorar los datos dados por la regresión logística con los parámetros por defecto del algoritmo dado por sklearn.
+En este caso me centre en mejorar mediante la regularización. Comparando si para nuestro problema cual es el parámetro C mejor. Este parámetro nos fuerza a regularizar de forma mas fuerte conforme mas bajo sea. 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot007}
+\end{figure}
+Como se ve en la grafica a partir  de 300 en c empezamos a sobrepasar el 98\% de tasa de acierto que conseguía el k-nn con k = 1.
+
+Con el parámetro 500 obtengo un Eout 1.8363939899833093\%.
+Para esto el parámetro umbral de parada lo asigno a $1e-3$ y las iteraciones máximas a 100.
+
+\subsection{Discutir y justificar la calidad del modelo obtenido.}
+El modelo encontrado me parece muy bueno siendo capaz de superar el 98\% de acierto y con un tiempo de poco mas de 2.7 segundos mejorando también el tiempo que nos dio por defecto en las pruebas anteriores que fue de 5 segundos.
+Vamos a mostrar una matriz de confusión para ver los resultados.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot008}
+
+\end{figure}
+
+Como se ve la diagonal es la que tiene el peso de los aciertos y fuera de esta apenas hay un par de valores en los que nuestro algoritmo falla. Estos valores grises donde falla nos están diciendo que confundimos en algunos casos los 8 con 1 y los 7 con 9. 
+
+
+
+\section{Airfoil self noise}
+Los datos constan de 1503 casos, cada uno con 6 atributos obtenidos de una serie de pruebas aerodinámicas y acústicas de secciones de aspas aerodinámicas de dos y tres dimensiones realizadas en un túnel de viento con un revestimiento anecoico para absorber y atenuar el sonido. El conjunto contiene 6 variables. 
+
+
+
 
 \end{document}
 

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.14)  17 MAY 2019 13:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.10.14)  18 MAY 2019 18:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -556,57 +556,98 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 [2]
-Overfull \hbox (18.91728pt too wide) in paragraph at lines 53--55
+<4.png, id=13, 291.0875pt x 573.14125pt>
+File: 4.png Graphic file (type png)
+<use 4.png>
+Package pdftex.def Info: 4.png  used on input line 58.
+(pdftex.def)             Requested size: 241.50484pt x 396.0101pt.
+
+Overfull \hbox (18.91728pt too wide) in paragraph at lines 53--60
 \OT1/cmr/m/n/10 Los datos al-ma-ce-na-dos en el dataset pertenecen a un con-jun
 to de d^^S^^Pgitos manuscritos.
  []
 
-[1]
-<screenshot002.png, id=17, 149.8097pt x 147.55125pt>
+[1 <./4.png>]
+<4matriculado.png, id=17, 69.861pt x 137.5539pt>
+File: 4matriculado.png Graphic file (type png)
+<use 4matriculado.png>
+Package pdftex.def Info: 4matriculado.png  used on input line 66.
+(pdftex.def)             Requested size: 241.50352pt x 396.06462pt.
+ [2 <./4matriculado.png>]
+<columanasinmodificar.png, id=21, 69.861pt x 18.0675pt>
+File: columanasinmodificar.png Graphic file (type png)
+<use columanasinmodificar.png>
+Package pdftex.def Info: columanasinmodificar.png  used on input line 73.
+(pdftex.def)             Requested size: 241.49895pt x 62.45778pt.
+<columanmodificada.png, id=23, 69.861pt x 18.0675pt>
+File: columanmodificada.png Graphic file (type png)
+<use columanmodificada.png>
+Package pdftex.def Info: columanmodificada.png  used on input line 78.
+(pdftex.def)             Requested size: 241.49895pt x 62.45778pt.
+ [3 <./columanasinmodificar.png> <./columanmodificada.png>] [4]
+<screenshot002.png, id=35, 149.8097pt x 147.55125pt>
 File: screenshot002.png Graphic file (type png)
 <use screenshot002.png>
-Package pdftex.def Info: screenshot002.png  used on input line 150.
+Package pdftex.def Info: screenshot002.png  used on input line 178.
 (pdftex.def)             Requested size: 241.49895pt x 237.8767pt.
- [2]
-<screenshot001.png, id=23, 149.8097pt x 147.55125pt>
+<screenshot001.png, id=36, 149.8097pt x 147.55125pt>
 File: screenshot001.png Graphic file (type png)
 <use screenshot001.png>
-Package pdftex.def Info: screenshot001.png  used on input line 163.
+Package pdftex.def Info: screenshot001.png  used on input line 191.
 (pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
-<screenshot004.png, id=24, 149.8097pt x 147.55125pt>
+<screenshot004.png, id=37, 149.8097pt x 147.55125pt>
 File: screenshot004.png Graphic file (type png)
 <use screenshot004.png>
-Package pdftex.def Info: screenshot004.png  used on input line 166.
+Package pdftex.def Info: screenshot004.png  used on input line 194.
 (pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
-<screenshot005.png, id=25, 149.8097pt x 147.55125pt>
+<screenshot005.png, id=38, 149.8097pt x 147.55125pt>
 File: screenshot005.png Graphic file (type png)
 <use screenshot005.png>
-Package pdftex.def Info: screenshot005.png  used on input line 169.
+Package pdftex.def Info: screenshot005.png  used on input line 197.
 (pdftex.def)             Requested size: 103.50105pt x 101.94328pt.
- [3 <./screenshot002.png (PNG copy)> <./screenshot001.png (PNG copy)> <./screen
-shot004.png (PNG copy)> <./screenshot005.png (PNG copy)>] [4]
-(./practica3.aux) ) 
+ [5 <./screenshot002.png (PNG copy)>] [6 <./screenshot001.png (PNG copy)> <./sc
+reenshot004.png (PNG copy)> <./screenshot005.png (PNG copy)>]
+<screenshot006.png, id=48, 279.29344pt x 162.6075pt>
+File: screenshot006.png Graphic file (type png)
+<use screenshot006.png>
+Package pdftex.def Info: screenshot006.png  used on input line 246.
+(pdftex.def)             Requested size: 241.49895pt x 140.60889pt.
+ [7]
+<screenshot007.png, id=52, 450.9347pt x 347.79938pt>
+File: screenshot007.png Graphic file (type png)
+<use screenshot007.png>
+Package pdftex.def Info: screenshot007.png  used on input line 263.
+(pdftex.def)             Requested size: 241.49895pt x 186.26453pt.
+ [8 <./screenshot006.png (PNG copy)>]
+<screenshot008.png, id=56, 484.81125pt x 409.53pt>
+File: screenshot008.png Graphic file (type png)
+<use screenshot008.png>
+Package pdftex.def Info: screenshot008.png  used on input line 275.
+(pdftex.def)             Requested size: 241.49895pt x 204.00212pt.
+ [9 <./screenshot007.png> <./screenshot008.png (PNG copy)>] [10] (./practica3.a
+ux) ) 
 Here is how much of TeX's memory you used:
- 5216 strings out of 494923
- 73686 string characters out of 6180741
- 198083 words of memory out of 5000000
- 8487 multiletter control sequences out of 15000+600000
+ 5253 strings out of 494923
+ 74436 string characters out of 6180741
+ 201083 words of memory out of 5000000
+ 8517 multiletter control sequences out of 15000+600000
  6837 words of font info for 25 fonts, out of 8000000 for 9000
  14 hyphenation exceptions out of 8191
  44i,12n,49p,553b,1118s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmbx10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx
-12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb
-></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/
-share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/
-texmf-dist/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-di
-st/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmtt8.pfb>
-Output written on practica3.pdf (6 pages, 119258 bytes).
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/share/t
+exlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi7.pfb></usr/share/texlive/
+texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-d
+ist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmtt8.pfb>
+Output written on practica3.pdf (12 pages, 199538 bytes).
 PDF statistics:
- 63 PDF objects out of 1000 (max. 8388607)
- 41 compressed objects within 1 object stream
+ 98 PDF objects out of 1000 (max. 8388607)
+ 59 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 21 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 56 words of extra memory for PDF output out of 10000 (max. 10000000)
 
