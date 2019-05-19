@@ -191,20 +191,21 @@ def primerDataSet():
     print("Regresion logistica por defecto")
     print("Tiempo=", time() - start_time )
     print("Eout=",(1-acierto_logistico)*100)
-    
+    print()
     
     start_time = time()
     acierto_perceptron = perceptronEntrenarDefecto(train_X,train_y,test_X,test_y)
     print("Percetron por defecto")
     print("Tiempo=", time() - start_time )
     print("Eout=",(1-acierto_perceptron)*100)
+    print()
     
     start_time = time()
     acierto_logistico,y_predecido = regresionLinealEntrenarMejorado(train_X,train_y,test_X,test_y,regularizacion,500)
     print("Regresion logistica mejorada")
     print("Tiempo=", time() - start_time )
     print("Eout=",(1-acierto_logistico)*100)
-    
+    print()
     
     
     matriz_confusion = confusion_matrix(test_y, y_predecido)
@@ -260,10 +261,18 @@ def normalizacionMax(datos):
 def dividirTrainTest(X,y, tam_test = 0.2):
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=tam_test, random_state=42)
     return X_train, X_test, y_train, y_test
-    
-def main():
-    #primerDataSet()
-    
+
+def obtenerRegresionLineal(X_train,y_train,X_test, y_test):
+    start_time = time()
+    reg = LinearRegression(normalize = True )
+    reg.fit(X_train, y_train)
+    print("Tiempo=", time() - start_time )
+    R2=reg.score(X_test, y_test)
+    tam = np.shape(X_test)
+    print("R2 = ",R2* 100)
+    print("R2 ajustado = ", (1-(1-R2)*(tam[0]-1)/(tam[0]-tam[1]-1))*100)
+
+def segundoDataSet():
     #datos = pd.read_csv("datos/airfoil_self_noise.dat", delimiter = '\t',header=None, index_col = 5,  names = ["Frecuencia", "Angulo de ataque", "Longitud de cuerda", "Velocidad de flujo", "Espesor desplazamiento lateral"]) 
     datos = pd.read_csv("datos/airfoil_self_noise.dat", delimiter = '\t',header=None)
     dibujarMatrizCorrelacion(datos)
@@ -275,44 +284,49 @@ def main():
     X_train, X_test, y_train, y_test = dividirTrainTest(variables,clases);
     
     
-    start_time = time()
-    reg = LinearRegression(normalize = True, )
-    reg.fit(X_train, y_train)
+    
     print("Regresion lineal con grado 0")
-    print("Tiempo=", time() - start_time )
-    print("R2 = ",reg.score(X_test, y_test)* 100)
-    
+    obtenerRegresionLineal(X_train,y_train,X_test,y_test)
+    print()
     X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,2)  
-    start_time = time()
-    reg = LinearRegression(normalize = True, )
-    reg.fit(X_train_mejorado, y_train)
+    
     print("Regresion lineal con grado 2")
-    print("Tiempo=", time() - start_time )
-    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
-    
+    obtenerRegresionLineal(X_train_mejorado,y_train,X_test_mejorado,y_test)
+    print()
+
     X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,3)  
-    start_time = time()
-    reg = LinearRegression(normalize = True, )
-    reg.fit(X_train_mejorado, y_train)
-    print("Regresion lineal con grado 3")
-    print("Tiempo=", time() - start_time )
-    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
     
+    print("Regresion lineal con grado 3")
+    obtenerRegresionLineal(X_train_mejorado,y_train,X_test_mejorado,y_test)
+    print()
     X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,4)  
-    start_time = time()
-    reg = LinearRegression(normalize = True, )
-    reg.fit(X_train_mejorado, y_train)
+    
     print("Regresion lineal con grado 4")
-    print("Tiempo=", time() - start_time )
-    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
+    obtenerRegresionLineal(X_train_mejorado,y_train,X_test_mejorado,y_test)
+    print()
     
     X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,5)  
-    start_time = time()
-    reg = LinearRegression(normalize = True, )
-    reg.fit(X_train_mejorado, y_train)
+    
     print("Regresion lineal con grado 5")
-    print("Tiempo=", time() - start_time )
-    print("R2 = " ,reg.score(X_test_mejorado, y_test) * 100)
+    obtenerRegresionLineal(X_train_mejorado,y_train,X_test_mejorado,y_test)
+    
+    
+    
+def main():
+    print("--------------------------------------------------")
+    print("Digits Data Set")
+    primerDataSet()
+    print("--------------------------------------------------")
+    
+    print("--------------------------------------------------")
+    print("Airfoil self noise")
+    print("--------------------------------------------------")
+    segundoDataSet()
+    
+    
+    
+    
+    
     
     
 if __name__== "__main__":

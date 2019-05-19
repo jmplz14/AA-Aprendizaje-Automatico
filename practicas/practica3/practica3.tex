@@ -2,6 +2,7 @@
 \documentclass[titlepage]{article}
  \usepackage[utf8]{inputenc}
 \usepackage{listings}
+\usepackage{hyperref}
 \usepackage{float}
 \usepackage{graphicx}
 \usepackage{subfig}
@@ -341,7 +342,7 @@ def dividirTrainTest(X,y, tam_test = 0.2):
 \end{lstlisting}
 
 \subsection{Necesidad de regularización}
-Puesto que al añadir información de grado 4 he metido muchas mas variables al problema, podremos utilizar la regularización L2, que produce en general valores de peso más pequeños, lo que estabiliza las ponderaciones.
+Puesto que al añadir información de grado 4 he metido muchas mas variables al problema, podremos utilizar la regularización L2, que produce en general valores de peso más pequeños, lo que estabiliza las ponderaciones. Aunque en este caso nuestro modelo no se ajusta muy bien a a los datos y no obtendremos mejoras considerables.
 
 \subsection{Definición de los modelos a usar y sus parámetros}
 En este caso el modelo a usar sera regresión lineal. De los dados en practicas es es el único que puede afrontar este problema de predicción. He utilizado la implementación de la librería sklearn.linear\_model.LinearRegression. En este caso no tenemos ningún parámetro que ajustar.
@@ -350,42 +351,61 @@ En este caso el modelo a usar sera regresión lineal. De los dados en practicas 
 En este apartado no podemos añadir nada mas puesto que regresión linear no tiene parámetros que tengamos que ajustar y es el único que podemos utilizar de los dados en practicas.
 
 \subsection{Metrica usada}
-En este caso usamos la métrica de coeficiente de determinación ($R^2$). 
-La formula para la métrica es la siguiente:
-$$
-R^{2}=\frac{\sigma_{X Y}^{2}}{\sigma_{X}^{2} \sigma_{Y}^{2}}
-$$
+En este caso usamos la métrica de coeficiente de determinación ($R^2$). Se calcula como $1-\frac{u}{v}$, donde u es la suma residual de cuadrados ((y\_true - y\_pred) ** 2) .sum () y v es la suma total de cuadrados ((y\_true - y\_true.mean ()) ** 2) .sum (). 
 
-Donde $\sigma_{X Y}$es la covarianza de $(X, Y)$, $\sigma_{X}^{2}$ es la Varianza de la variable $X$ y $\sigma_{Y}^{2}$ es la Varianza de la variable $Y$. Es la métrica que se utiliza para regresión lineal.
+Tambien utlizaremos una segunda metrica que es una mejora de $R^2$, Estama metrica es conocida como coeficiente de determinación ajustado. Y su formala es la siguiente:
+$$
+	1-(1-R 2) *(n-1) /(n-p-1)
+$$
+En este caso n representa el numero de muestras de la partición que estemos clasificando y p el numero de características de cada muestra.
+
+R2 tiende a estimar de forma optimista el ajuste de la regresión lineal. Siempre aumenta como el número de características que se incluyen en el modelo. R2 ajustado intenta corregir esta estimación excesiva. R2 ajustado podría disminuir si un efecto específico no mejora el modelo. 
+
+R2 ajustado siempre es menor o igual que R2. Un valor de 1 indica un modelo que predice perfectamente valores del campo objetivo. Un valor que es menor o igual que 0 indica un modelo que no tiene ningún valor predictivo. En el mundo real, R2 ajustado se encuentra entre estos valores. 
 
 \subsection{Estimación del error Eout}
 En este caso lo que mas me a afectado a la métrica ha sido incluir mayor información al problema con el grado. Voy a mostrar en una tabla la mejora:
 \begin{table}[H]
 	\begin{center}
-		\begin{tabular}{|l|l|l|}
+		\begin{tabular}{|l|l|l|l|}
 			\hline
-			Grado & Tiempo & R2\\
+			Grado & Tiempo & R2& R2 ajustado\\
 			\hline
-			0 &  0.0082 & 0.5582\%\\ 
+			0 &  0.0082 & 55.82979\% &55.0811\\ 
 			\hline
-			2 &0.0098 & 0.6840\%\\  
+			2 &0.0098 & 68.4058\% & 66.0278\\  
 			\hline
-			3  & 0.0019 & 0.7593\%\\  
+			3  & 0.0019 &  75.9331\% & 70.4096\\  
 			\hline
-			4  & 0.0137 & 0.8408\%\\  
+			4  & 0.0137 & 84.0892\% & 72.5676\\  
 			\hline
-			5  & 0.0238 & 0.8002\%\\  
+			5  & 0.0238 & 80.0246\% & -24.8458\\  
 			\hline
 		\end{tabular}
 	\end{center}
 Como se ve en la tabla anterior el mejor resultado se da con el grado 4 mientras que el tiempo no tiene un aumento muy considerable siendo muy rápido de ejecuta.
 \subsection{Discutir y justificar el la calidad del modelo obtenido.}
-Al ser tener un dataset en el que no tenemos clases, sino que la etiqueta y es un valor real que tendremos que acertar es mas complicado mediante regresión lineal conseguir un buen modelo para ajustar a este problema. 
-Lo máximo conseguido a sido un 80\% y esto aun así se quedaran corto para asegurar que nuestros resultados serán cercanos a la etiqueta y. Es un problema demasiado complejo para ser aproximado con regresión lineal y quizás tendríamos que elegir otros modelos mas avanzados como podrían ser random forest regression o XGBoost regression que podrían ajustarse mejor a este dataset.
+Al tener un dataset en el que no tenemos clases, sino que la etiqueta y es un valor real que tendremos que acertar es mas complicado mediante regresión lineal conseguir un buen modelo para ajustar a este problema. 
+
+En este caso se tendrá mas en cuenta la métrica R2 mejorada puesto que al añadir información al problema estamos metiendo una gran cantidad de nuevas características que en R2 nos aumentara el valor de predicción sin tener en cuenta que la cantidad de características.
+Lo máximo conseguido a sido un 70\% y esto aun así se quedaran corto para asegurar que nuestros resultados serán cercanos a la etiqueta y puesto que nos podriamos estar equivocando un 30\%. Es un problema demasiado complejo para ser aproximardo con regresión lineal. Quizás tendríamos que elegir otros modelos mas avanzados como podrían ser random forest regression o XGBoost regression que podrían ajustarse mejor a este dataset.
 \end{table}
 
+\section{Bibliografía}
+\subsection{Digits Data Set}
 
 
+\url{https://chrisalbon.com/machine_learning/feature_selection/variance_thresholding_for_feature_selection/}
+\\
+\url{https://stackoverflow.com/questions/2148543/how-to-write-a-confusion-matrix-in-python}
+\\
+
+\subsection{Airfoil self noise}
+\url{https://www.simonwenkel.com/2018/11/06/revisiting-ml-NASA-airfoil-noise.html}
+\\
+\url{https://www.ibm.com/support/knowledgecenter/es/SS4QC9/com.ibm.solutions.wa_an_overview.2.0.0.doc/rsquared_adjusted.html}
+\\
+\url{https://stackoverflow.com/questions/51038820/how-to-calculated-the-adjusted-r2-value-using-scikit}
 
 
 

@@ -1,0 +1,25 @@
+\BOOKMARK [1][-]{section.1}{Digits Data Set}{}% 1
+\BOOKMARK [2][-]{subsection.1.1}{Comprender el problema a resolver.}{section.1}% 2
+\BOOKMARK [2][-]{subsection.1.2}{Preprocesado de datos}{section.1}% 3
+\BOOKMARK [2][-]{subsection.1.3}{Selecci\363n de clase de funciones a usar.}{section.1}% 4
+\BOOKMARK [2][-]{subsection.1.4}{Definici\363n de training, validaci\363n y test.}{section.1}% 5
+\BOOKMARK [2][-]{subsection.1.5}{Necesidad de regularizaci\363n}{section.1}% 6
+\BOOKMARK [2][-]{subsection.1.6}{Definici\363n del modelos a usar y sus par\341metros}{section.1}% 7
+\BOOKMARK [2][-]{subsection.1.7}{Selecci\363n y ajuste del modelo final}{section.1}% 8
+\BOOKMARK [2][-]{subsection.1.8}{M\351trica usada}{section.1}% 9
+\BOOKMARK [2][-]{subsection.1.9}{Estimaci\363n del error Eout}{section.1}% 10
+\BOOKMARK [2][-]{subsection.1.10}{Discutir y justificar la calidad del modelo obtenido.}{section.1}% 11
+\BOOKMARK [1][-]{section.2}{Airfoil self noise}{}% 12
+\BOOKMARK [2][-]{subsection.2.1}{Comprender el problema a resolver}{section.2}% 13
+\BOOKMARK [2][-]{subsection.2.2}{Preprocesado de datos}{section.2}% 14
+\BOOKMARK [2][-]{subsection.2.3}{Seleccion de la clase de funciones a usar}{section.2}% 15
+\BOOKMARK [2][-]{subsection.2.4}{Definici\363n de training, validaci\363n y test}{section.2}% 16
+\BOOKMARK [2][-]{subsection.2.5}{Necesidad de regularizaci\363n}{section.2}% 17
+\BOOKMARK [2][-]{subsection.2.6}{Definici\363n de los modelos a usar y sus par\341metros}{section.2}% 18
+\BOOKMARK [2][-]{subsection.2.7}{Selecci\363n y ajuste del modelo final}{section.2}% 19
+\BOOKMARK [2][-]{subsection.2.8}{Metrica usada}{section.2}% 20
+\BOOKMARK [2][-]{subsection.2.9}{Estimaci\363n del error Eout}{section.2}% 21
+\BOOKMARK [2][-]{subsection.2.10}{Discutir y justificar el la calidad del modelo obtenido.}{section.2}% 22
+\BOOKMARK [1][-]{section.3}{Bibliograf\355a}{}% 23
+\BOOKMARK [2][-]{subsection.3.1}{Digits Data Set}{section.3}% 24
+\BOOKMARK [2][-]{subsection.3.2}{Airfoil self noise}{section.3}% 25
