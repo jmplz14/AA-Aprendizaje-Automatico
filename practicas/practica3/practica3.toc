@@ -10,3 +10,13 @@
 \contentsline {subsection}{\numberline {1.9}Estimaci\IeC {\'o}n del error Eout}{8}
 \contentsline {subsection}{\numberline {1.10}Discutir y justificar la calidad del modelo obtenido.}{9}
 \contentsline {section}{\numberline {2}Airfoil self noise}{10}
+\contentsline {subsection}{\numberline {2.1}Comprender el problema a resolver}{10}
+\contentsline {subsection}{\numberline {2.2}Preprocesado de datos}{11}
+\contentsline {subsection}{\numberline {2.3}Seleccion de la clase de funciones a usar}{12}
+\contentsline {subsection}{\numberline {2.4}Definici\IeC {\'o}n de training, validaci\IeC {\'o}n y test}{12}
+\contentsline {subsection}{\numberline {2.5}Necesidad de regularizaci\IeC {\'o}n}{12}
+\contentsline {subsection}{\numberline {2.6}Definici\IeC {\'o}n de los modelos a usar y sus par\IeC {\'a}metros}{12}
+\contentsline {subsection}{\numberline {2.7}Selecci\IeC {\'o}n y ajuste del modelo final}{12}
+\contentsline {subsection}{\numberline {2.8}Metrica usada}{12}
+\contentsline {subsection}{\numberline {2.9}Estimaci\IeC {\'o}n del error Eout}{13}
+\contentsline {subsection}{\numberline {2.10}Discutir y justificar el la calidad del modelo obtenido.}{13}

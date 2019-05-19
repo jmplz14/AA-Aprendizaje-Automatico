@@ -14,6 +14,11 @@ from matplotlib import pyplot as plt
 import matplotlib.patches as mpatches
 import numpy as np
 from sklearn.metrics import confusion_matrix
+from sklearn.utils.multiclass import unique_labels
+from sklearn.model_selection import train_test_split
+from sklearn import linear_model
+from sklearn.linear_model import LinearRegression
+import pandas as pd 
 
 from warnings import simplefilter
 # ignore all future warnings
@@ -37,11 +42,13 @@ def eliminarVarianza(train_X,test_X,limite = 0):
     return train,test
 
 
-def loadCSV(fichero):
+def loadCSV(fichero, delimitador = ','):
     
-    my_data = np.genfromtxt(fichero, delimiter=',')
-    clases = my_data[:, -1] 
+    my_data = np.genfromtxt(fichero, delimiter= delimitador)
+    
+    clases = my_data[:, -1]     
     datos = my_data[:, :-1]
+
     #datos = normalizarDatos(datos)
     
     return datos,clases
@@ -102,6 +109,58 @@ def perceptronEntrenarDefecto(X,y,X_test, y_test):
         datos[i-1][0] = i*2
         datos[i-1][1] = acierto
         print(i*2,",",acierto)"""
+        
+
+def plot_confusion_matrix2(y_true, y_pred, classes,
+                          normalize=False,
+                          title=None,
+                          cmap=plt.cm.Blues):
+    """
+    This function prints and plots the confusion matrix.
+    Normalization can be applied by setting `normalize=True`.
+    """
+    if not title:
+        if normalize:
+            title = 'Normalized confusion matrix'
+        else:
+            title = 'Confusion matrix, without normalization'
+
+    # Compute confusion matrix
+    cm = confusion_matrix(y_true, y_pred)
+    # Only use the labels that appear in the data
+    #classes = classes[unique_labels(y_true, y_pred)]
+    if normalize:
+        cm = cm.astype('float') / cm.sum(axis=1)[:, np.newaxis]
+
+
+
+    fig, ax = plt.subplots()
+    im = ax.imshow(cm, interpolation='nearest', cmap=cmap)
+    ax.figure.colorbar(im, ax=ax)
+    # We want to show all ticks...
+    ax.set(xticks=np.arange(cm.shape[1]),
+           yticks=np.arange(cm.shape[0]),
+           # ... and label them with the respective list entries
+           xticklabels=[0,1,2,3,4,5,6,7,8,9], yticklabels=classes,
+           title=title,
+           ylabel='Valores validos',
+           xlabel='Valores predecidos')
+
+    # Rotate the tick labels and set their alignment.
+    plt.setp(ax.get_xticklabels(), rotation=45, ha="right",
+             rotation_mode="anchor")
+
+    # Loop over data dimensions and create text annotations.
+    fmt = '.2f' if normalize else 'd'
+    thresh = cm.max() / 2.
+    for i in range(cm.shape[0]):
+        for j in range(cm.shape[1]):
+            ax.text(j, i, format(cm[i, j], fmt),
+                    ha="center", va="center",
+                    color="white" if cm[i, j] > thresh else "black")
+    fig.tight_layout()
+    return ax
+
 def plot_confusion_matrix(df_confusion, title='Matriz de confusion', cmap=plt.cm.gray_r):
     plt.matshow(df_confusion, cmap=cmap) # imshow
     plt.title(title)
@@ -110,13 +169,10 @@ def plot_confusion_matrix(df_confusion, title='Matriz de confusion', cmap=plt.cm
     #plt.xticks(tick_marks, df_confusion.columns, rotation=45)
     #plt.yticks(tick_marks, df_confusion.index)
     #plt.tight_layout()
-    #plt.ylabel(df_confusion.index.name)
-    #plt.xlabel(df_confusion.columns.name)
+    plt.ylabel("Etiquetas")
+    plt.xlabel("Prediccion")
 
-
-
-
-def main():
+def primerDataSet():
     train_X, train_y = loadCSV("datos/optdigits.tra")
     test_X, test_y = loadCSV("datos/optdigits.tes")
     
@@ -154,17 +210,11 @@ def main():
     matriz_confusion = confusion_matrix(test_y, y_predecido)
     matriz_confusion =  matriz_confusion /  matriz_confusion.sum(axis=1) 
     
-    plot_confusion_matrix(matriz_confusion)
+    #plot_confusion_matrix(matriz_confusion)
+    plot_confusion_matrix2(test_y, y_predecido, classes=[0,1,2,3,4,5,6,7,8,9], normalize=True,
+                      title='Matriz de confusion')
     
-    
-    
-    
-    
-    
-    
-    
-    
-    #obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion)
+     #obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion)
     """l1 = np.genfromtxt("datos/l1.csv", delimiter=',')
     l2 = np.genfromtxt("datos/l2.csv", delimiter=',')
     
@@ -194,6 +244,77 @@ def main():
     plt.show()
     #Calculo de mejoras con regularizacion l1 y l2.
     #obtenerDatosRegularizacion(train_X,train_y,test_X,test_y, regularizacion)"""
+def dibujarMatrizCorrelacion(datos):
+    plt.matshow(datos.corr())
+    plt.xlabel("columnas variable")
+    plt.ylabel("columnas variable")
+    plt.title("Matriz de correlacion")
+    
+    plt.show()
+    plt.colorbar()    
+    
+def normalizacionMax(datos):
+    datos = datos/datos.max(axis=0)   
+    return datos
+
+def dividirTrainTest(X,y, tam_test = 0.2):
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=tam_test, random_state=42)
+    return X_train, X_test, y_train, y_test
+    
+def main():
+    #primerDataSet()
+    
+    #datos = pd.read_csv("datos/airfoil_self_noise.dat", delimiter = '\t',header=None, index_col = 5,  names = ["Frecuencia", "Angulo de ataque", "Longitud de cuerda", "Velocidad de flujo", "Espesor desplazamiento lateral"]) 
+    datos = pd.read_csv("datos/airfoil_self_noise.dat", delimiter = '\t',header=None)
+    dibujarMatrizCorrelacion(datos)
+
+    variables,clases = loadCSV("datos/airfoil_self_noise.dat", delimitador= '\t');
+    variables = normalizacionMax(variables)
+    
+    
+    X_train, X_test, y_train, y_test = dividirTrainTest(variables,clases);
+    
+    
+    start_time = time()
+    reg = LinearRegression(normalize = True, )
+    reg.fit(X_train, y_train)
+    print("Regresion lineal con grado 0")
+    print("Tiempo=", time() - start_time )
+    print("R2 = ",reg.score(X_test, y_test)* 100)
+    
+    X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,2)  
+    start_time = time()
+    reg = LinearRegression(normalize = True, )
+    reg.fit(X_train_mejorado, y_train)
+    print("Regresion lineal con grado 2")
+    print("Tiempo=", time() - start_time )
+    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
+    
+    X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,3)  
+    start_time = time()
+    reg = LinearRegression(normalize = True, )
+    reg.fit(X_train_mejorado, y_train)
+    print("Regresion lineal con grado 3")
+    print("Tiempo=", time() - start_time )
+    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
+    
+    X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,4)  
+    start_time = time()
+    reg = LinearRegression(normalize = True, )
+    reg.fit(X_train_mejorado, y_train)
+    print("Regresion lineal con grado 4")
+    print("Tiempo=", time() - start_time )
+    print("R2 = " ,reg.score(X_test_mejorado, y_test)* 100)
+    
+    X_train_mejorado,X_test_mejorado = anadirInformacionPolinomial(X_train,X_test,5)  
+    start_time = time()
+    reg = LinearRegression(normalize = True, )
+    reg.fit(X_train_mejorado, y_train)
+    print("Regresion lineal con grado 5")
+    print("Tiempo=", time() - start_time )
+    print("R2 = " ,reg.score(X_test_mejorado, y_test) * 100)
+    
+    
 if __name__== "__main__":
   main()
   

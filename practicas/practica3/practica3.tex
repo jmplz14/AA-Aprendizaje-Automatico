@@ -272,16 +272,120 @@ El modelo encontrado me parece muy bueno siendo capaz de superar el 98\% de acie
 Vamos a mostrar una matriz de confusión para ver los resultados.
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.7\linewidth]{screenshot008}
+	\includegraphics[width=0.7\linewidth]{screenshot009}
 
 \end{figure}
 
-Como se ve la diagonal es la que tiene el peso de los aciertos y fuera de esta apenas hay un par de valores en los que nuestro algoritmo falla. Estos valores grises donde falla nos están diciendo que confundimos en algunos casos los 8 con 1 y los 7 con 9. 
+Como se ve la diagonal es la que tiene el peso de los aciertos y fuera de esta apenas hay un par de valores en los que nuestro algoritmo falla. Estos valores donde falla nos están diciendo que confundimos en algunos casos los 8 con 1 y los 7 con 9. 
 
 
 
 \section{Airfoil self noise}
-Los datos constan de 1503 casos, cada uno con 6 atributos obtenidos de una serie de pruebas aerodinámicas y acústicas de secciones de aspas aerodinámicas de dos y tres dimensiones realizadas en un túnel de viento con un revestimiento anecoico para absorber y atenuar el sonido. El conjunto contiene 6 variables. 
+\subsection{Comprender el problema a resolver}
+Este conjunto de datos contiene los resultados de las pruebas aerodinámicas de la NASA en 1989. El dataset mide el ruido causado por el flujo de aire sobre una superficie aerodinámica. Este campo de investigación es conocido como aeroacústica. Estos resultados están medidos en un túnel de viento. Se prueban los perfiles aerodinámicos de diferentes tamaños con varias velocidades de viento y distintos ángulos. La duración del perfil aerodinámico y la posición del observador fueron las mismas en todos los experimentos.
+
+El dataset contiene las siguientes variables:
+\begin{enumerate}
+	\item Frecuencia en hercios.
+	\item Ángulo de ataque en grados.
+	\item Longitud de la cuerda en metros
+	\item Velocidad de flujo libre en metros por segundo
+	\item Espesor de desplazamiento lateral de aspiración en metros
+\end{enumerate}
+
+La etiqueta a adivinar en este caso es un numero real que representara el nivel de presión sonora escalonado. Por tanto no se trata de un conjunto de etiquetas finito, sino que es un numero real. Esto complicara el problema. 
+El datase se compone de 1503 muestras
+
+Como en este caso tenemos pocas variables en el dataset, podremos buscar una correlación entre la variable a predecir y las demás variables. Esto nos podría ayudar a la hora de mejorar la predicción. Para esto vamos a mostrar una matriz de correlación donde tendremos las variables del problema y la clase. La clase sera la ultima columna y las variables estarán ordenadas como se explicaron anteriormente.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.7\linewidth]{screenshot010}
+
+\end{figure}
+
+En este caso como se ve en el gráfico no hay ninguna variable que nos ayude. Por tanto no podemos ver ninguna variable que tenga una relación con la clase. 
+
+\subsection{Preprocesado de datos}
+En este ejemplo realizaremos dos procesamientos con los datos. 
+El primero sera la normalización de los datos. Para esto como no se tienen números negativos en la muestra podremos buscar el máximo de cada columna y utilizar este unicamente para la normalización.
+
+\begin{lstlisting}
+def normalizacionMax(datos):
+	datos = datos/datos.max(axis=0)   
+	return datos
+\end{lstlisting}
+
+El segundo paso que realizaremos con los datos sera añadir nueva información que nos ayude a clasificar, para esto realizare lo mismo que en el caso problema anterior añadiendo nueva información. En este caso al tener un numero de variables mas pequeño podemos meter mas información sin tener problemas de memoria. En este caso y tras algunas pruebas me he decidido por meter información de grado 4. Con esto he conseguido disminuir mejor hasta un 30\% que en el caso de no meter información.
+
+\begin{lstlisting}
+def anadirInformacionPolinomial(train_X, test_X, grado = 2):
+	poly = PolynomialFeatures(grado)
+	train_X = poly.fit_transform(train_X)
+	test_X = poly.fit_transform(test_X)
+	
+	return train_X, test_X
+\end{lstlisting}
+
+En este caso no vamos a eliminar datos por varianza como en el apartado anterior puesto que no tenemos una gran cantidad de variables como en el ejercicio anterior y ninguna repite todos sus valores.
+
+\subsection{Seleccion de la clase de funciones a usar}
+En este caso nos enfrentamos a un problema de predicción en el que tendremos que predecir el valor de la etiqueta y de nuestra muestra. Se utilizara la familia de funciones lineales intentando ajustar la función lo mejor posible a los puntos para tener el menor error a la hora de predecir la etiqueta.
+
+\subsection{Definición de training, validación y test}
+En este caso voy a dividir los datos en un 80\% para el trainig y un 20\% para el test. La división lo realizaremos de forma aleatoria para no estar condicionados por el orden en el que nos dieron los datos. Para estoy utilizare la librería sklearn.model\_selection.train\_test\_split.
+
+\begin{lstlisting}
+def dividirTrainTest(X,y, tam_test = 0.2):
+	X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=tam_test, random_state=42)
+	return X_train, X_test, y_train, y_test
+\end{lstlisting}
+
+\subsection{Necesidad de regularización}
+Puesto que al añadir información de grado 4 he metido muchas mas variables al problema, podremos utilizar la regularización L2, que produce en general valores de peso más pequeños, lo que estabiliza las ponderaciones.
+
+\subsection{Definición de los modelos a usar y sus parámetros}
+En este caso el modelo a usar sera regresión lineal. De los dados en practicas es es el único que puede afrontar este problema de predicción. He utilizado la implementación de la librería sklearn.linear\_model.LinearRegression. En este caso no tenemos ningún parámetro que ajustar.
+
+\subsection{Selección y ajuste del modelo final}
+En este apartado no podemos añadir nada mas puesto que regresión linear no tiene parámetros que tengamos que ajustar y es el único que podemos utilizar de los dados en practicas.
+
+\subsection{Metrica usada}
+En este caso usamos la métrica de coeficiente de determinación ($R^2$). 
+La formula para la métrica es la siguiente:
+$$
+R^{2}=\frac{\sigma_{X Y}^{2}}{\sigma_{X}^{2} \sigma_{Y}^{2}}
+$$
+
+Donde $\sigma_{X Y}$es la covarianza de $(X, Y)$, $\sigma_{X}^{2}$ es la Varianza de la variable $X$ y $\sigma_{Y}^{2}$ es la Varianza de la variable $Y$. Es la métrica que se utiliza para regresión lineal.
+
+\subsection{Estimación del error Eout}
+En este caso lo que mas me a afectado a la métrica ha sido incluir mayor información al problema con el grado. Voy a mostrar en una tabla la mejora:
+\begin{table}[H]
+	\begin{center}
+		\begin{tabular}{|l|l|l|}
+			\hline
+			Grado & Tiempo & R2\\
+			\hline
+			0 &  0.0082 & 0.5582\%\\ 
+			\hline
+			2 &0.0098 & 0.6840\%\\  
+			\hline
+			3  & 0.0019 & 0.7593\%\\  
+			\hline
+			4  & 0.0137 & 0.8408\%\\  
+			\hline
+			5  & 0.0238 & 0.8002\%\\  
+			\hline
+		\end{tabular}
+	\end{center}
+Como se ve en la tabla anterior el mejor resultado se da con el grado 4 mientras que el tiempo no tiene un aumento muy considerable siendo muy rápido de ejecuta.
+\subsection{Discutir y justificar el la calidad del modelo obtenido.}
+Al ser tener un dataset en el que no tenemos clases, sino que la etiqueta y es un valor real que tendremos que acertar es mas complicado mediante regresión lineal conseguir un buen modelo para ajustar a este problema. 
+Lo máximo conseguido a sido un 80\% y esto aun así se quedaran corto para asegurar que nuestros resultados serán cercanos a la etiqueta y. Es un problema demasiado complejo para ser aproximado con regresión lineal y quizás tendríamos que elegir otros modelos mas avanzados como podrían ser random forest regression o XGBoost regression que podrían ajustarse mejor a este dataset.
+\end{table}
+
+
+
 
 
 
